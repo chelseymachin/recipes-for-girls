@@ -17,7 +17,7 @@ export default function App() {
 
   function listRecipes() {
     client.models.Recipe.observeQuery().subscribe({
-      next: (data) => setRecipes({...data.items})
+      next: (data) => setRecipes([...data.items])
     })
   }
 
@@ -43,12 +43,16 @@ export default function App() {
       <h1>{user?.signInDetails?.loginId}'s Recipes</h1>
       <button onClick={createRecipe}>+ new</button>
       <ul>
-        {recipes.map((recipe) => (
-          <li
-            key={recipe.id}
-            onClick={() => deleteRecipe(recipe.id)}
-          >{recipe.title}</li>
-        ))}
+        {recipes.length > 0 ? (
+          recipes.map((recipe) => (
+            <li
+              key={recipe.id}
+              onClick={() => deleteRecipe(recipe.id)}
+            >{recipe.title}</li>
+          ))
+        ) : (
+          <li>No recipes saved yet!</li>
+        )}
       </ul>
       <button onClick={signOut}>Sign Out</button>
     </main>
